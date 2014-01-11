@@ -15,6 +15,7 @@
 
 @property (nonatomic) int32_t leftCount;
 @property (nonatomic) int32_t rightCount;
+@property (nonatomic, getter = getBalance) int32_t balance;
 @property (nonatomic) float value;
 @property (nonatomic, retain) NSString * data;
 @property (nonatomic, retain) NSString * name;
@@ -25,5 +26,6 @@
 @property (nonatomic, retain) DTNodeX *lesserParent;
 
 - (void) addNewNode:(DTNodeX *)x;
+- (void) makeBetterBalance;
 
 @end

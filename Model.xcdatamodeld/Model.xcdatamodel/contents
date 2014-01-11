@@ -5,6 +5,7 @@
         <relationship name="rootNode" minCount="1" maxCount="1" deletionRule="Deny" destinationEntity="NodeX" inverseName="graph" inverseEntity="NodeX" syncable="YES"/>
     </entity>
     <entity name="NodeX" representedClassName="DTNodeX" syncable="YES">
+        <attribute name="balance" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="leftCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="rightCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
@@ -18,7 +19,7 @@
     <fetchRequest name="UnbalancedLeft" entity="NodeX"/>
     <fetchRequest name="UnbalancedRight" entity="NodeX"/>
     <elements>
-        <element name="Graph" positionX="-63" positionY="-108" width="128" height="58"/>
-        <element name="NodeX" positionX="169" positionY="-252" width="128" height="176"/>
+        <element name="Graph" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="NodeX" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

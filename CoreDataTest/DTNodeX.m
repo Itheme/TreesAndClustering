@@ -12,13 +12,16 @@
 
 @implementation DTNodeX
 
-@dynamic leftCount;
-@dynamic rightCount;
+@dynamic leftCount, balance, rightCount;
 @dynamic value;
 @dynamic data;
 @dynamic name;
 @dynamic biggerParent, lesserParent;
 @dynamic leftSubNode, rightSubNode;
+
+- (int32_t) getBalance {
+    return ABS(self.leftCount - self.rightCount);
+}
 
 - (void) addNewNode:(DTNodeX *)x {
     if (!x) return;
@@ -38,6 +41,55 @@
             //x.biggerParent = self;
         }
         self.leftCount += 1;
+    }
+}
+
+- (void) substituteRightWith:(DTNodeX *)newNode {
+    self.rightSubNode.lesserParent = nil;
+    self.rightSubNode = newNode;
+    newNode.lesserParent = self;
+    
+    [newNode addNewNode:self.rightSubNode];
+}
+
+- (void) substituteLeftWith:(DTNodeX *)newNode {
+    self.rightSubNode.biggerParent = nil;
+    self.rightSubNode = newNode;
+    newNode.biggerParent = self;
+    
+    [newNode addNewNode:self.leftSubNode];
+}
+
+/*
+   1                1
+    \                \
+     5                6
+    / \       =>     / \
+   3   6            5   8
+  / \   \          /   / \
+ 2   4   8        3   7   9
+        / \      / \       \
+       7   9    2   4      10
+            \
+            10
+ */
+- (void) makeBetterBalance {
+    if (self.leftCount == self.rightCount) return;
+    DTNodeX *subNodeWhichIsBiggerThanMe;
+    if (self.leftCount < self.rightCount) {
+        subNodeWhichIsBiggerThanMe = self.rightSubNode;
+        self.rightSubNode = nil;
+        self.rightCount = 0;
+    } else {
+        subNodeWhichIsBiggerThanMe = self.leftSubNode;
+        self.leftSubNode = nil;
+        self.leftCount = 0;
+    }
+    if (self.lesserParent)
+        [self.lesserParent substituteRightWith:subNodeWhichIsBiggerThanMe];
+    else {
+        if (self.biggerParent)
+            [self.biggerParent substituteLeftWith:subNodeWhichIsBiggerThanMe];
     }
 }
 
