@@ -12,5 +12,6 @@
 @interface DTClusteringViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet DTClusteringView *clusteringRepresentation;
+- (IBAction)doClustering:(id)sender;
 
 @end

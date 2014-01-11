@@ -41,13 +41,13 @@
 - (void)balanceGraphX:(DTGraph *)graphX GraphY:(DTGraph *)graphY InContext:(NSManagedObjectContext *)context {
     self.xbalancingOperation = [NSBlockOperation blockOperationWithBlock:^{
         [NSThread sleepForTimeInterval:1.0];
-        @synchronized (context) {
+        @synchronized (graphX) {
             [graphX startBalancingInContext:context NodeEntityName:@"NodeX"];
         }
         [self updateGraphXRepresentation];
         [NSThread sleepForTimeInterval:0.1];
         while (![self.xbalancingOperation isCancelled]) {
-            @synchronized (context) {
+            @synchronized (graphX) {
                 if (![graphX iterateBalancing:5]) break;
             }
             [self updateGraphXRepresentation];
@@ -56,13 +56,13 @@
     }];
     self.ybalancingOperation = [NSBlockOperation blockOperationWithBlock:^{
         [NSThread sleepForTimeInterval:1.0];
-        @synchronized (context) {
+        @synchronized (graphY) {
             [graphY startBalancingInContext:context NodeEntityName:@"NodeY"];
         }
         [self updateGraphYRepresentation];
         [NSThread sleepForTimeInterval:0.1];
         while (![self.ybalancingOperation isCancelled]) {
-            @synchronized (context) {
+            @synchronized (graphY) {
                 if (![graphY iterateBalancing:5]) break;
             }
             [self updateGraphYRepresentation];

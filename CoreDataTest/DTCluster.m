@@ -18,7 +18,22 @@
 @dynamic length;
 @dynamic nodes;
 
-- (BOOL)iterateSelfOrganizationInContext:(NSManagedObjectContext *)context DistanceLinit:(float)distanceLimit {
+- (DTNodeX *)ClosestTo:(CGPoint) p NodeInArray:(NSArray *)unbound DistanceLimit:(float)distanceLimit {
+    DTNodeX *closeOne = nil;
+    float closeD = INFINITY;
+    for (DTNodeX *node in unbound) {
+        float d = sqrt(pow(p.x - node.value, 2) + pow(p.y - node.pair.value, 2));
+        if (d < closeD) {
+            closeOne = node;
+            closeD = d;
+        }
+    }
+    if (distanceLimit < closeD)
+        return nil;
+    return closeOne;
+}
+
+- (BOOL)iterateSelfOrganizationInContext:(NSManagedObjectContext *)context DistanceLimit:(float)distanceLimit {
     BOOL firstIteration = self.nodes.count == 0;
     if (firstIteration)
         distanceLimit = INFINITY;
@@ -27,19 +42,20 @@
     __block float y = self.centerY;
     unboundNodes.predicate = [NSPredicate predicateWithBlock:^BOOL(DTNodeX *evaluatedObject, NSDictionary *bindings) {
         if (evaluatedObject.cluster) return NO;
-        float d = sqrt(pow(x - evaluatedObject.value, 2) + pow(y - evaluatedObject.pair.value, 2));
-        if (d > distanceLimit) return NO;
-        evaluatedObject.lastEffectiveDistance = d;
+        float veryApproximateDistance = ABS(x - evaluatedObject.value) + ABS(y - evaluatedObject.pair.value);
+        if (veryApproximateDistance > distanceLimit) return NO;
         return YES;
     }];
-    unboundNodes.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"lastEffectiveDistance" ascending:YES]];
+    //unboundNodes.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"lastEffectiveDistance" ascending:YES]];
     NSError *error = nil;
     
     NSArray *unbound = [context executeFetchRequest:unboundNodes error:&error];
     if (error || (unbound.count == 0)) {
         return NO;
     }
-    DTNodeX *node = unbound.lastObject;
+    
+    DTNodeX *node = [self ClosestTo:CGPointMake(x, y) NodeInArray:unbound DistanceLimit:distanceLimit];
+    if (node == nil) return NO;
     if (firstIteration) {
         self.centerX = node.value;
         self.centerY = node.pair.value;

@@ -56,37 +56,22 @@
 
 - (void)viewDidLoad
 {
+    NSError *error = nil;
+
     [super viewDidLoad];
     DTAppDelegate *appDelegate = (DTAppDelegate *)[UIApplication sharedApplication].delegate;
     NSManagedObjectContext *context = appDelegate.context;
-    [self createClustersInContext:context Model:appDelegate.model];
+    @synchronized (context) { // previous view could be stopping balancing now
+        [self createClustersInContext:context Model:appDelegate.model];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"NodeX"];
+        fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"value" ascending:YES]];
+        
+        self.clusteringRepresentation.allNodes = [context executeFetchRequest:fetchRequest error:&error];
+    }
 
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"NodeX"];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"value" ascending:YES]];
-    NSError *error = nil;
-    
-    self.clusteringRepresentation.allNodes = [context executeFetchRequest:fetchRequest error:&error];
     if (error)
-        return;
+        @throw [NSException exceptionWithName:@"Error in executeFetchRequest" reason:@"Nodes are inaccessible" userInfo:nil];
 
-    self.clusteringOperation = [NSBlockOperation blockOperationWithBlock:^{
-        BOOL everybodyDone;
-        do {
-            everybodyDone = YES;
-            [NSThread sleepForTimeInterval:0.1];
-            [self updateRepresentation];
-            for (DTCluster *cluster in self.clusters) {
-                if (![cluster iterateSelfOrganizationInContext:context DistanceLinit:0.1])
-                    everybodyDone = NO;
-            }
-        } while (!everybodyDone && ![self.clusteringOperation isCancelled]);
-    }];
-    __block DTClusteringViewController *this = self;
-    [self.clusteringOperation setCompletionBlock:^{
-        [this updateRepresentation];
-    }];
-    self.queue = [[NSOperationQueue alloc] init];
-    [self.queue addOperation:self.clusteringOperation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,4 +80,32 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)doClustering:(id)sender {
+    if (self.clusteringOperation) return;
+    DTAppDelegate *appDelegate = (DTAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSManagedObjectContext *context = appDelegate.context;
+    self.clusteringOperation = [NSBlockOperation blockOperationWithBlock:^{
+        BOOL everybodyDone;
+        do {
+            everybodyDone = YES;
+            [NSThread sleepForTimeInterval:0.1];
+            [self updateRepresentation];
+            for (DTCluster *cluster in self.clusters) {
+                @synchronized (self.clusteringRepresentation.allNodes) { // not to be messed with representation
+                    if (![cluster iterateSelfOrganizationInContext:context DistanceLimit:0.1])
+                        everybodyDone = NO;
+                }
+            }
+        } while (everybodyDone || [self.clusteringOperation isCancelled]);
+        [self updateRepresentation];
+
+    }];
+    __block DTClusteringViewController *this = self;
+    [self.clusteringOperation setCompletionBlock:^{
+        [this updateRepresentation];
+    }];
+    self.queue = [[NSOperationQueue alloc] init];
+    [self.queue addOperation:self.clusteringOperation];
+    
+}
 @end

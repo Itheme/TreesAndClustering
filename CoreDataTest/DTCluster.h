@@ -26,7 +26,7 @@
  @param maximum distance to cover by one iteration
  */
 
-- (BOOL)iterateSelfOrganizationInContext:(NSManagedObjectContext *)context DistanceLinit:(float)distanceLimit;
+- (BOOL)iterateSelfOrganizationInContext:(NSManagedObjectContext *)context DistanceLimit:(float)distanceLimit;
 
 @end
 

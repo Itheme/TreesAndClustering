@@ -34,20 +34,23 @@
     s.height *= 1.0/2.4;
     if (self.allNodes) {
         CGContextSetRGBFillColor(context, 0, 0, 0, 1.0);
-        for (DTNodeX *node in self.allNodes) {
-            CGFloat x = (node.value + 1.2) * s.width;
-            CGFloat y = (node.pair.value + 1.3) * s.height;
-            CGContextAddRect(context, CGRectMake(x - 1, y - 1, 2, 2));
+        @synchronized (self.allNodes) {
+            for (DTNodeX *node in self.allNodes) {
+                CGFloat x = (node.value + 1.2) * s.width;
+                CGFloat y = (node.pair.value + 1.3) * s.height;
+                CGContextAddRect(context, CGRectMake(x - 1, y - 1, 2, 2));
+            }
         }
         CGContextFillPath(context);
-    }
-    if (self.allClusters) {
+        if (!self.allClusters) return;
         CGContextSetRGBStrokeColor(context, 0.8, 0, 0.8, 0.5);
-        for (DTCluster *cluster in self.allClusters) {
-            CGFloat x = (cluster.centerX + 1.2) * s.width;
-            CGFloat y = (cluster.centerY + 1.3) * s.height;
-            CGContextMoveToPoint(context, x + cluster.length*0.5*cos(cluster.angle), y + cluster.length*0.5*sin(cluster.angle));
-            CGContextAddLineToPoint(context, x - cluster.length*0.5*cos(cluster.angle), y - cluster.length*0.5*sin(cluster.angle));
+        @synchronized (self.allNodes) {
+            for (DTCluster *cluster in self.allClusters) {
+                CGFloat x = (cluster.centerX + 1.2) * s.width;
+                CGFloat y = (cluster.centerY + 1.3) * s.height;
+                CGContextMoveToPoint(context, x + cluster.length*0.5*cos(cluster.angle), y + cluster.length*0.5*sin(cluster.angle));
+                CGContextAddLineToPoint(context, x - cluster.length*0.5*cos(cluster.angle), y - cluster.length*0.5*sin(cluster.angle));
+            }
         }
         CGContextStrokePath(context);
     }

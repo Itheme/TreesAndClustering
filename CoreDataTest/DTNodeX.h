@@ -30,8 +30,6 @@ typedef DTNodeX DTNodeY;
 @property (nonatomic, retain) DTNodeY *pair;
 @property (nonatomic, retain) DTCluster *cluster;
 
-@property (nonatomic) float lastEffectiveDistance; // temporary property for clustering calculation
-
 - (void) addNewNode:(DTNodeX *)x;
 - (void) makeBetterBalance;
 - (void) terminateAllConnections;

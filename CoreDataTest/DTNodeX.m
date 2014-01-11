@@ -20,8 +20,6 @@
 @dynamic leftSubNode, rightSubNode, pair;
 @dynamic cluster;
 
-@dynamic lastEffectiveDistance;
-
 - (int32_t) getBalance {
     return ABS(self.leftCount - self.rightCount);
 }
