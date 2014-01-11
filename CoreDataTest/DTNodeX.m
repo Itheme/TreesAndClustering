@@ -17,7 +17,10 @@
 @dynamic data;
 @dynamic name;
 @dynamic biggerParent, lesserParent;
-@dynamic leftSubNode, rightSubNode;
+@dynamic leftSubNode, rightSubNode, pair;
+@dynamic cluster;
+
+@dynamic lastEffectiveDistance;
 
 - (int32_t) getBalance {
     return ABS(self.leftCount - self.rightCount);

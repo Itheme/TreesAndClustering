@@ -7,12 +7,76 @@
 //
 
 #import "DTAppDelegate.h"
+#import "DTNodeX.h"
+
+@interface DTAppDelegate ()
+
+@property (nonatomic, strong) DTGraph *graphX;
+@property (nonatomic, strong) DTGraph *graphY;
+@property (nonatomic, strong) NSManagedObjectModel *model;
+@property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, strong) NSManagedObjectContext *context;
+
+#pragma mark - Local Methods
+
+/*!
+ @abstract Creates kCLOUDSIZE of NodeXs and kCLOUDSIZE of NodeYs connected in pairs by 'pair' property and assigns them to graphX and graphY correspondingly
+ */
+- (void)fillNodes;
+
+/*!
+ @abstract Creates model, context and initialized graphX and graphY
+ @discussion Assuming Model is called 'Model' and located in the main bundle
+ */
+- (void)createModel;
+
+@end
 
 @implementation DTAppDelegate
 
+- (void) createModel {
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Model" withExtension:@"momd"];
+    self.model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    self.persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.model];
+    self.context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
+    [self.context setPersistentStoreCoordinator:self.persistentStoreCoordinator];
+    
+    NSEntityDescription *graphEntityDescriptionX = [self.model entitiesByName][@"GraphX"];
+    NSEntityDescription *graphEntityDescriptionY = [self.model entitiesByName][@"GraphY"];
+	
+    self.graphX = [[DTGraph alloc] initWithEntity:graphEntityDescriptionX insertIntoManagedObjectContext:self.context];
+    [self.context insertObject:self.graphX];
+    self.graphY = [[DTGraph alloc] initWithEntity:graphEntityDescriptionY insertIntoManagedObjectContext:self.context];
+    [self.context insertObject:self.graphY];
+}
+
+- (DTNodeX *)addNewNode:(float) nodeValue Graph:(DTGraph *) graph Description:(NSEntityDescription *)nodeDescription {
+    DTNodeX *x = [[DTNodeX alloc] initWithEntity:nodeDescription insertIntoManagedObjectContext:self.context];
+    x.value = nodeValue;
+    if (graph.rootNode) {
+        [graph.rootNode addNewNode:x];
+    } else {
+        graph.rootNode = x;
+    }
+    [self.context insertObject:x];
+    return x;
+}
+
+- (void)fillNodes {
+    NSEntityDescription *nodeDescriptionX = [self.model entitiesByName][@"NodeX"];
+    NSEntityDescription *nodeDescriptionY = [self.model entitiesByName][@"NodeY"];
+    for (int i = kCLOUDSIZE; i--; ) {
+        double radians = M_PI*2.0*rand()/RAND_MAX;
+        DTNodeX *x = [self addNewNode:cos(radians)+0.05*rand()/RAND_MAX-0.025 Graph:self.graphX Description:nodeDescriptionX];
+        x.pair = [self addNewNode:sin(radians)+0.05*rand()/RAND_MAX-0.025 Graph:self.graphY Description:nodeDescriptionY];
+        x.pair.pair = x;
+    }
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    [self createModel];
+    [self fillNodes];
     return YES;
 }
 							

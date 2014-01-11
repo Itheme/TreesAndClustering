@@ -10,6 +10,9 @@
 #import <CoreData/CoreData.h>
 
 @class DTNodeX;
+@class DTCluster;
+
+typedef DTNodeX DTNodeY;
 
 @interface DTNodeX : NSManagedObject
 
@@ -24,11 +27,13 @@
 
 @property (nonatomic, retain) DTNodeX *biggerParent;
 @property (nonatomic, retain) DTNodeX *lesserParent;
+@property (nonatomic, retain) DTNodeY *pair;
+@property (nonatomic, retain) DTCluster *cluster;
+
+@property (nonatomic) float lastEffectiveDistance; // temporary property for clustering calculation
 
 - (void) addNewNode:(DTNodeX *)x;
 - (void) makeBetterBalance;
 - (void) terminateAllConnections;
 
 @end
-
-typedef DTNodeX DTNodeY; 

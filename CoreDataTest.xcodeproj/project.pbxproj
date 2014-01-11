@@ -25,6 +25,9 @@
 		BCA738B31881811400A91D6F /* DTNodeX.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA738B21881811400A91D6F /* DTNodeX.m */; };
 		BCA738B61881813900A91D6F /* DTGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA738B51881813900A91D6F /* DTGraph.m */; };
 		BCFE62831881BC3900B79DAD /* DTGraphRepresentationView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE62821881BC3900B79DAD /* DTGraphRepresentationView.m */; };
+		BCFE62861881EA3C00B79DAD /* DTCluster.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE62851881EA3C00B79DAD /* DTCluster.m */; };
+		BCFE62891881EAFC00B79DAD /* DTClusteringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE62881881EAFC00B79DAD /* DTClusteringViewController.m */; };
+		BCFE628C1881F18D00B79DAD /* DTClusteringView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE628B1881F18D00B79DAD /* DTClusteringView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -89,6 +92,12 @@
 		BCA738BE188187C300A91D6F /* mogend.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = mogend.sh; sourceTree = "<group>"; };
 		BCFE62811881BC3900B79DAD /* DTGraphRepresentationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTGraphRepresentationView.h; sourceTree = "<group>"; };
 		BCFE62821881BC3900B79DAD /* DTGraphRepresentationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTGraphRepresentationView.m; sourceTree = "<group>"; };
+		BCFE62841881EA3C00B79DAD /* DTCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTCluster.h; path = CoreDataTest/DTCluster.h; sourceTree = "<group>"; };
+		BCFE62851881EA3C00B79DAD /* DTCluster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTCluster.m; path = CoreDataTest/DTCluster.m; sourceTree = "<group>"; };
+		BCFE62871881EAFC00B79DAD /* DTClusteringViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTClusteringViewController.h; sourceTree = "<group>"; };
+		BCFE62881881EAFC00B79DAD /* DTClusteringViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTClusteringViewController.m; sourceTree = "<group>"; };
+		BCFE628A1881F18D00B79DAD /* DTClusteringView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTClusteringView.h; sourceTree = "<group>"; };
+		BCFE628B1881F18D00B79DAD /* DTClusteringView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTClusteringView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,8 +132,12 @@
 				BCA738B51881813900A91D6F /* DTGraph.m */,
 				BCA738B11881811400A91D6F /* DTNodeX.h */,
 				BCA738B21881811400A91D6F /* DTNodeX.m */,
+				BCFE62841881EA3C00B79DAD /* DTCluster.h */,
+				BCFE62851881EA3C00B79DAD /* DTCluster.m */,
 				BCFE62811881BC3900B79DAD /* DTGraphRepresentationView.h */,
 				BCFE62821881BC3900B79DAD /* DTGraphRepresentationView.m */,
+				BCFE628A1881F18D00B79DAD /* DTClusteringView.h */,
+				BCFE628B1881F18D00B79DAD /* DTClusteringView.m */,
 				BCA7387F18817BCF00A91D6F /* CoreDataTest */,
 				BCA7389E18817BCF00A91D6F /* CoreDataTestTests */,
 				BCA7387818817BCF00A91D6F /* Frameworks */,
@@ -161,6 +174,8 @@
 				BCA7388B18817BCF00A91D6F /* Main.storyboard */,
 				BCA7388E18817BCF00A91D6F /* DTViewController.h */,
 				BCA7388F18817BCF00A91D6F /* DTViewController.m */,
+				BCFE62871881EAFC00B79DAD /* DTClusteringViewController.h */,
+				BCFE62881881EAFC00B79DAD /* DTClusteringViewController.m */,
 				BCA7389118817BCF00A91D6F /* Images.xcassets */,
 				BCA7388018817BCF00A91D6F /* Supporting Files */,
 			);
@@ -305,12 +320,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCFE62861881EA3C00B79DAD /* DTCluster.m in Sources */,
 				BCA738B61881813900A91D6F /* DTGraph.m in Sources */,
+				BCFE628C1881F18D00B79DAD /* DTClusteringView.m in Sources */,
 				BCA7388A18817BCF00A91D6F /* DTAppDelegate.m in Sources */,
 				BCA738B31881811400A91D6F /* DTNodeX.m in Sources */,
 				BCA7389018817BCF00A91D6F /* DTViewController.m in Sources */,
 				BCA7388618817BCF00A91D6F /* main.m in Sources */,
 				BCFE62831881BC3900B79DAD /* DTGraphRepresentationView.m in Sources */,
+				BCFE62891881EAFC00B79DAD /* DTClusteringViewController.m in Sources */,
 				BCA738B018817C0F00A91D6F /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -6,17 +6,27 @@
     </entity>
     <entity name="GraphY" representedClassName="DTGraph" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="rootNode" minCount="1" maxCount="1" deletionRule="No Action" destinationEntity="NodeY" inverseName="graph" inverseEntity="NodeY" syncable="YES"/>
+        <relationship name="rootNode" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="NodeY" inverseName="graph" inverseEntity="NodeY" syncable="YES"/>
+    </entity>
+    <entity name="LinearCluster" representedClassName="DTCluster" syncable="YES">
+        <attribute name="angle" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="centerX" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="centerY" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="length" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="nodes" optional="YES" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="NodeX" inverseName="cluster" inverseEntity="NodeX" syncable="YES"/>
     </entity>
     <entity name="NodeX" representedClassName="DTNodeX" syncable="YES">
         <attribute name="balance" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="lastEffectiveDistance" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="leftCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="rightCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="biggerParent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NodeX" inverseName="leftSubNode" inverseEntity="NodeX" syncable="YES"/>
+        <relationship name="cluster" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LinearCluster" inverseName="nodes" inverseEntity="LinearCluster" syncable="YES"/>
         <relationship name="graph" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GraphX" inverseName="rootNode" inverseEntity="GraphX" syncable="YES"/>
         <relationship name="leftSubNode" optional="YES" maxCount="1" deletionRule="Nullify" ordered="YES" destinationEntity="NodeX" inverseName="biggerParent" inverseEntity="NodeX" syncable="YES"/>
         <relationship name="lesserParent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NodeX" inverseName="rightSubNode" inverseEntity="NodeX" syncable="YES"/>
+        <relationship name="pair" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NodeY" inverseName="pair" inverseEntity="NodeY" syncable="YES"/>
         <relationship name="rightSubNode" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NodeX" inverseName="lesserParent" inverseEntity="NodeX" syncable="YES"/>
     </entity>
     <entity name="NodeY" representedClassName="DTNodeX" syncable="YES">
@@ -24,22 +34,18 @@
         <attribute name="leftCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="rightCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="biggerParent" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="NodeY" inverseName="leftSubNode" inverseEntity="NodeY" syncable="YES"/>
-        <relationship name="graph" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="GraphY" inverseName="rootNode" inverseEntity="GraphY" syncable="YES"/>
-        <relationship name="leftSubNode" optional="YES" maxCount="1" deletionRule="No Action" ordered="YES" destinationEntity="NodeY" inverseName="biggerParent" inverseEntity="NodeY" syncable="YES"/>
-        <relationship name="lesserParent" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="NodeY" inverseName="rightSubNode" inverseEntity="NodeY" syncable="YES"/>
-        <relationship name="rightSubNode" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="NodeY" inverseName="lesserParent" inverseEntity="NodeY" syncable="YES"/>
+        <relationship name="biggerParent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NodeY" inverseName="leftSubNode" inverseEntity="NodeY" syncable="YES"/>
+        <relationship name="graph" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GraphY" inverseName="rootNode" inverseEntity="GraphY" syncable="YES"/>
+        <relationship name="leftSubNode" optional="YES" maxCount="1" deletionRule="Nullify" ordered="YES" destinationEntity="NodeY" inverseName="biggerParent" inverseEntity="NodeY" syncable="YES"/>
+        <relationship name="lesserParent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NodeY" inverseName="rightSubNode" inverseEntity="NodeY" syncable="YES"/>
+        <relationship name="pair" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NodeX" inverseName="pair" inverseEntity="NodeX" syncable="YES"/>
+        <relationship name="rightSubNode" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NodeY" inverseName="lesserParent" inverseEntity="NodeY" syncable="YES"/>
     </entity>
-    <fetchRequest name="Unbalanced" entity="NodeX" predicateString="NOT (FALSEPREDICATE)"/>
-    <fetchRequest name="Unbalanced1" entity="NodeY" predicateString="NOT (FALSEPREDICATE)"/>
-    <fetchRequest name="UnbalancedLeft" entity="NodeX"/>
-    <fetchRequest name="UnbalancedLeft1" entity="NodeY"/>
-    <fetchRequest name="UnbalancedRight" entity="NodeX"/>
-    <fetchRequest name="UnbalancedRight1" entity="NodeY"/>
     <elements>
-        <element name="GraphX" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="NodeX" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="NodeY" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="GraphY" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="GraphX" positionX="43" positionY="6" width="128" height="75"/>
+        <element name="GraphY" positionX="-207" positionY="-3" width="128" height="75"/>
+        <element name="NodeX" positionX="97" positionY="-300" width="128" height="210"/>
+        <element name="NodeY" positionX="-225" positionY="-324" width="128" height="195"/>
+        <element name="LinearCluster" positionX="-144" positionY="-477" width="128" height="60"/>
     </elements>
 </model>

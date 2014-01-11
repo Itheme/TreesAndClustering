@@ -14,3 +14,9 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+// overall node count
+#define kCLOUDSIZE 1000
+
+// cluster count
+#define kCLUSTERCOUNT 12

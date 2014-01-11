@@ -30,7 +30,7 @@
              @"leftRange":[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(range.location, index - 1 - range.location)],
              @"rightRange":[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(index + 1, range.location + range.length - index - 1)]};
 }
-                                                                              
+
 - (void) startBalancingInContext:(NSManagedObjectContext *)context NodeEntityName:(NSString *)nodeEntityName {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:nodeEntityName];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"value" ascending:YES]];
@@ -48,6 +48,18 @@
     medianNode.rightCount = _allNodes.count - medianIndex;
     self.unbalancedNodes = [@[[self unbalancedNodeRecordAtIndex:medianIndex WithinRange:NSMakeRange(0, _allNodes.count)]] mutableCopy];
 }
+
+/*
+ 0                         0
+  \                         \
+   2                    =>   3
+  / \   empty left      =>  / \
+ 1  >3< branch here        2   5
+      \                   /   / \
+       5                 1   4   6
+      / \
+     4   6
+ */
 
 - (BOOL) iterateBalancing:(NSUInteger) times {
     while (times--) {
