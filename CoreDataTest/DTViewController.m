@@ -14,10 +14,29 @@
 
 @implementation DTViewController
 
+- (void)fillNodes {
+    for (int i = 1000; i--; ) {
+        DTNodeX *x = [[DTNodeX alloc] init];
+//        x.
+        
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    //NSEntityDescription *entityDescription = [[NSEntityDescription alloc] init];
+    //[entityDescription setName:@"TheGraph"];
+    //[entityDescription setManagedObjectClassName:@"DTGraph"];
+    
+    //NSMutableArray *appointmentSearchResponseProperties = [NSMutableArray array];
+    //NSAttributeDescription *messageType = [[NSAttributeDescription alloc] init];
+    //[messageType setName:@"messages"];
+    //[messageType setAttributeType:NSTransformableAttributeType];
+    //[appointmentSearchResponseProperties addObject:messageType];
+    
+    //[entityDescription setProperties:appointmentSearchResponseProperties];
+	self.graph = [[DTGraph alloc] init];
 }
 
 - (void)didReceiveMemoryWarning

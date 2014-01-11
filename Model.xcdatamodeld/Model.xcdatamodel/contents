@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="12F45" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Graph" representedClassName="DTGraph" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="rootNode" minCount="1" maxCount="1" deletionRule="Deny" destinationEntity="NodeX" inverseName="graph" inverseEntity="NodeX" syncable="YES"/>
+    </entity>
+    <entity name="NodeX" representedClassName="DTNodeX" syncable="YES">
+        <attribute name="data" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="left" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="right" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="graph" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Graph" inverseName="rootNode" inverseEntity="Graph" syncable="YES"/>
+        <relationship name="parentNode" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NodeX" inverseName="subNodes" inverseEntity="NodeX" syncable="YES"/>
+        <relationship name="subNodes" optional="YES" toMany="YES" maxCount="2" deletionRule="Nullify" destinationEntity="NodeX" inverseName="parentNode" inverseEntity="NodeX" syncable="YES"/>
+    </entity>
+    <fetchRequest name="BiggestLeft" entity="NodeX" predicateString="left > 0 AND right > 0"/>
+    <elements>
+        <element name="Graph" positionX="-63" positionY="-108" width="128" height="58"/>
+        <element name="NodeX" positionX="169" positionY="-252" width="128" height="176"/>
+    </elements>
+</model>
