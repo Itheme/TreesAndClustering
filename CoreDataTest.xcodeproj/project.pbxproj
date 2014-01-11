@@ -24,6 +24,7 @@
 		BCA738B018817C0F00A91D6F /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BCA738AE18817C0F00A91D6F /* Model.xcdatamodeld */; };
 		BCA738B31881811400A91D6F /* DTNodeX.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA738B21881811400A91D6F /* DTNodeX.m */; };
 		BCA738B61881813900A91D6F /* DTGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA738B51881813900A91D6F /* DTGraph.m */; };
+		BCA738C118819A7100A91D6F /* DTBalancerPrediacte.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA738C018819A7100A91D6F /* DTBalancerPrediacte.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -86,6 +87,8 @@
 		BCA738B51881813900A91D6F /* DTGraph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTGraph.m; sourceTree = "<group>"; };
 		BCA738BD188187C300A91D6F /* mogen.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = mogen.sh; sourceTree = "<group>"; };
 		BCA738BE188187C300A91D6F /* mogend.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = mogend.sh; sourceTree = "<group>"; };
+		BCA738BF18819A7100A91D6F /* DTBalancerPrediacte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTBalancerPrediacte.h; sourceTree = "<group>"; };
+		BCA738C018819A7100A91D6F /* DTBalancerPrediacte.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTBalancerPrediacte.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +154,8 @@
 			isa = PBXGroup;
 			children = (
 				BCA738AE18817C0F00A91D6F /* Model.xcdatamodeld */,
+				BCA738BF18819A7100A91D6F /* DTBalancerPrediacte.h */,
+				BCA738C018819A7100A91D6F /* DTBalancerPrediacte.m */,
 				BCA7388818817BCF00A91D6F /* DTAppDelegate.h */,
 				BCA7388918817BCF00A91D6F /* DTAppDelegate.m */,
 				BCA7388B18817BCF00A91D6F /* Main.storyboard */,
@@ -300,6 +305,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA738C118819A7100A91D6F /* DTBalancerPrediacte.m in Sources */,
 				BCA738B61881813900A91D6F /* DTGraph.m in Sources */,
 				BCA7388A18817BCF00A91D6F /* DTAppDelegate.m in Sources */,
 				BCA738B31881811400A91D6F /* DTNodeX.m in Sources */,

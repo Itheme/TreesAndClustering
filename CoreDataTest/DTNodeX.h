@@ -13,11 +13,17 @@
 
 @interface DTNodeX : NSManagedObject
 
-@property (nonatomic) int32_t left;
-@property (nonatomic) int32_t right;
+@property (nonatomic) int32_t leftCount;
+@property (nonatomic) int32_t rightCount;
+@property (nonatomic) float value;
 @property (nonatomic, retain) NSString * data;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) DTNodeX *subNode0;
-@property (nonatomic, retain) DTNodeX *subNode1;
+@property (nonatomic, retain) DTNodeX *rightSubNode;
+@property (nonatomic, retain) DTNodeX *leftSubNode;
+
+@property (nonatomic, retain) DTNodeX *biggerParent;
+@property (nonatomic, retain) DTNodeX *lesserParent;
+
+- (void) addNewNode:(DTNodeX *)x;
 
 @end

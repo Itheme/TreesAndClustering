@@ -12,6 +12,9 @@
 
 @interface DTViewController : UIViewController
 
-@property (nonatomic) DTGraph *graph;
+@property (nonatomic, strong) NSManagedObjectModel *model;
+@property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, strong) NSManagedObjectContext *context;
+@property (nonatomic, strong) DTGraph *graph;
 
 @end
