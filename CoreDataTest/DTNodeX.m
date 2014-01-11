@@ -93,4 +93,9 @@
     }
 }
 
+- (void) terminateAllConnections {
+    self.leftCount = self.rightCount = 0;
+    self.leftSubNode = self.rightSubNode = nil;
+}
+
 @end

@@ -13,11 +13,13 @@
 
 @interface DTViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet DTGraphRepresentationView *graphRepresentation;
+@property (weak, nonatomic) IBOutlet DTGraphRepresentationView *graphRepresentationX; // graphX representation
+@property (weak, nonatomic) IBOutlet DTGraphRepresentationView *graphRepresentationY; // graphY representation
 
 @property (nonatomic, strong) NSManagedObjectModel *model;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, strong) NSManagedObjectContext *context;
-@property (nonatomic, strong) DTGraph *graph;
+@property (nonatomic, strong) DTGraph *graphX;
+@property (nonatomic, strong) DTGraph *graphY;
 
 @end

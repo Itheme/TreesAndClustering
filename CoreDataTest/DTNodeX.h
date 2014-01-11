@@ -27,5 +27,8 @@
 
 - (void) addNewNode:(DTNodeX *)x;
 - (void) makeBetterBalance;
+- (void) terminateAllConnections;
 
 @end
+
+typedef DTNodeX DTNodeY; 

@@ -15,4 +15,7 @@
 
 @property (nonatomic, retain) DTNodeX *rootNode;
 
+- (void) startBalancingInContext:(NSManagedObjectContext *)context NodeEntityName:(NSString *)nodeEntityName;
+- (BOOL) iterateBalancing:(NSUInteger) times;
+
 @end
