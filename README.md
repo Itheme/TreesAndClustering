@@ -3,13 +3,16 @@ TreesAndClustering
 
 Core Data test, binary trees, linear data clustering thing
 
-It's a test for binary trees operations and data clustering using simple selforganizing maps.
+It's a test for binary trees operations and data clustering by means of selforganizing maps.
 
 NB. This project has no particular application or physical/statistical sence 
 
 ##Statup
 
-**DTAppDelegate** starts with creating point cloud forming some kind of a blured spiral. Points have random coordinates but they tend to be in this spiral.
+**DTAppDelegate** starts with creating point cloud forming some kind of a blurred spiral. Points have random coordinates but they tend to be in this spiral.
+
+![Spiral Image](https://lh4.googleusercontent.com/-0NtCwexgeug/UtKlFmIW3zI/AAAAAAAACSk/jhGD725n-i8/w568-h496-no/spiral.png)
+
 Each point is represented by **NodeX** entity for it's x-coordinate and **NodeY** for it's y.
 All graphs are managed objects of core data.
 
@@ -41,7 +44,7 @@ Since CoreData is not thread safe there are two ways to make CoreData calculatio
 
 I've chosen second option for this project.
 ####Median Balancing Method
-Personally I love median filters for their simlisity and results so I implemented this method here.
+Personally I love median filters for their simplisity and results so I implemented this method here.
 Let me show it with pseudographics once again
 
 ```
@@ -89,17 +92,18 @@ Now it's time to proceed to part two
 
 ##Part II: Clustering
 ###Idea
-Statistical data sometimes needs clustering. In most cases clustering is multidimentional. In this project I made linear clustering algorithm.
+Statistical data sometimes needs clustering. In most cases clustering is multidimensional. In this project I made linear clustering algorithm.
 
-It's physical sence in this particular case is to transform point cloud into one-dimention space -- map them onto a single line. After doing this, we could findout approximate coordinate of each node on a spiral and answer the question like 'what are the really closest points around our target?'.
+It's physical sence in this particular case is to transform point cloud into one-dimension space -- map them onto a single line. After doing this, we could findout approximate coordinate of each node on a spiral and answer the question like 'what are the really closest points around our target?'.
 
 Points may be close to each other but they could belong to different sleeves of a spiral in our particular case. Clustering could provide approximate one coordinate measurements for nodes.
 
-In real world we could, for an instance, cluster multidimentional data onto a surface with similiar approach.
+In real world we could, for an instance, cluster multidimensional data onto a surface with similiar approach.
 
 ###Self Organizing Clusters
 In this project I used simplified linear clusters (**DTCluster** class) which tend to cover random parts of a point cloud forming a big curvy line.
 Clustering could be started in **DTClusteringViewController** by pressing button with an obvious caption 'Do clustering'.
+![Clustering](https://lh4.googleusercontent.com/-rUcwNBikpFs/UtKlFlziqEI/AAAAAAAACSo/0-5_bzlw4j0/w568-h496-no/clustering.png)
 
 **DTClusteringViewController** creates a list of **DTCluster** entities and starts clustering operation same as in root **DTViewController**. While this operation is in progress, **DTGraphRepresentationView** represents covering of the point cloud by growing and conflicting clusters. Also it draws approximate resulting cluster.
 This process is infinite, since there is no rule to findout really optimal cloud coverage.
