@@ -13,7 +13,7 @@ NB. This project has no particular application or physical/statistical sence
 
 ![Spiral Image](https://lh4.googleusercontent.com/-0NtCwexgeug/UtKlFmIW3zI/AAAAAAAACSk/jhGD725n-i8/w568-h496-no/spiral.png)
 
-Each point is represented by **NodeX** entity for it's x-coordinate and **NodeY** for it's y.
+Each point is represented by **NodeX** CoreData entity for it's x-coordinate and **NodeY** for it's y.
 All graphs are managed objects of core data.
 
 
@@ -111,6 +111,6 @@ This process is infinite, since there is no rule to findout really optimal cloud
 ##Notes
 App is not reusable. Once the process started user can't go back. There is no stop/restart buttons yet. I could make them though.
 
-
-
+Data model @ 12.1.2014 looks like this
+![DataModel](https://lh5.googleusercontent.com/-52E0O-GJtgw/UtKqdIkBkvI/AAAAAAAACU4/n217HHwB4G8/w640-h448-no/Datamodel.png)
 
