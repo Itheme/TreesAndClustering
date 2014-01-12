@@ -10,6 +10,7 @@
 #import "DTNodeX.h"
 #import "DTCluster.h"
 
+// hardcoded coordinate transform formula
 #define TRANSX(x) (((x) + 1.2) * s.width)
 #define TRANSY(y) (((y) + 1.3) * s.height)
 

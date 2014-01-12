@@ -11,12 +11,22 @@
 
 @class DTNodeX;
 
+// Linear cluster
 @interface DTCluster : NSManagedObject
 
+// cluster mean center x
 @property (nonatomic) float centerX;
+
+// cluster mean center y
 @property (nonatomic) float centerY;
+
+// since the cluster is looking like a line, it has an angle
 @property (nonatomic) float angle;
+
+// length of cluster
 @property (nonatomic) float length;
+
+// nodes forming this cluster (only NodeX type, since NodeYs could be found through node.pair properties
 @property (nonatomic, retain) NSSet *nodes;
 
 /*!

@@ -128,16 +128,8 @@
 			isa = PBXGroup;
 			children = (
 				BCA738BC188187C300A91D6F /* mogenScripts */,
-				BCA738B41881813900A91D6F /* DTGraph.h */,
-				BCA738B51881813900A91D6F /* DTGraph.m */,
-				BCA738B11881811400A91D6F /* DTNodeX.h */,
-				BCA738B21881811400A91D6F /* DTNodeX.m */,
-				BCFE62841881EA3C00B79DAD /* DTCluster.h */,
-				BCFE62851881EA3C00B79DAD /* DTCluster.m */,
-				BCFE62811881BC3900B79DAD /* DTGraphRepresentationView.h */,
-				BCFE62821881BC3900B79DAD /* DTGraphRepresentationView.m */,
-				BCFE628A1881F18D00B79DAD /* DTClusteringView.h */,
-				BCFE628B1881F18D00B79DAD /* DTClusteringView.m */,
+				BCFE628E1882B9EB00B79DAD /* ModelObjects */,
+				BCFE628D1882B9DA00B79DAD /* RepresentationViews */,
 				BCA7387F18817BCF00A91D6F /* CoreDataTest */,
 				BCA7389E18817BCF00A91D6F /* CoreDataTestTests */,
 				BCA7387818817BCF00A91D6F /* Frameworks */,
@@ -218,6 +210,30 @@
 				BCA738BE188187C300A91D6F /* mogend.sh */,
 			);
 			path = mogenScripts;
+			sourceTree = "<group>";
+		};
+		BCFE628D1882B9DA00B79DAD /* RepresentationViews */ = {
+			isa = PBXGroup;
+			children = (
+				BCFE62811881BC3900B79DAD /* DTGraphRepresentationView.h */,
+				BCFE62821881BC3900B79DAD /* DTGraphRepresentationView.m */,
+				BCFE628A1881F18D00B79DAD /* DTClusteringView.h */,
+				BCFE628B1881F18D00B79DAD /* DTClusteringView.m */,
+			);
+			name = RepresentationViews;
+			sourceTree = "<group>";
+		};
+		BCFE628E1882B9EB00B79DAD /* ModelObjects */ = {
+			isa = PBXGroup;
+			children = (
+				BCA738B41881813900A91D6F /* DTGraph.h */,
+				BCA738B51881813900A91D6F /* DTGraph.m */,
+				BCA738B11881811400A91D6F /* DTNodeX.h */,
+				BCA738B21881811400A91D6F /* DTNodeX.m */,
+				BCFE62841881EA3C00B79DAD /* DTCluster.h */,
+				BCFE62851881EA3C00B79DAD /* DTCluster.m */,
+			);
+			name = ModelObjects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

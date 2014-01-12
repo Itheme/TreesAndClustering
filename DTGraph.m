@@ -13,8 +13,13 @@
     int medianIndex;
 }
 
+// allNodes contains all nodes associated with this graph. Array is initialized by startBalancingInContext: method
 @property (nonatomic, strong) NSArray *allNodes;
+
+// unbalancedNodes array contains dictionaries for all nodes that should be balanced by iterateBalancing: method. Each node dictionary consists of "node": DTNode entity, "leftRange": NSIndexSet of nodes that have smaller value than "node", "rightRange": NSIndexSet for bigger nodes.
 @property (nonatomic, strong) NSMutableArray *unbalancedNodes;
+
+// preferedNodeEntityName is "NodeX" for "GraphX" and "NodeY" for "GraphY"
 @property (nonatomic, strong) NSString *preferedNodeEntityName;
 
 @end
@@ -51,16 +56,17 @@
     self.unbalancedNodes = [@[[self unbalancedNodeRecordAtIndex:medianIndex WithinRange:NSMakeRange(0, _allNodes.count)]] mutableCopy];
 }
 
-/*
- 0                         0
-  \                         \
-   2                    =>   3
-  / \   empty left      =>  / \
- 1  >3< branch here        2   5
-      \                   /   / \
-       5                 1   4   6
-      / \
-     4   6
+/* Idea of median balancing:
+ 
+ 0
+  \                       3        |           3
+   2           |         / \      012         / \     => tada!
+  / \    => 0123489 => 012 489 =>  ^  =>     1   8
+ 1   3         ^                            /|   |\
+      \      median            =>  |  =>   0 2   4 9
+       8  (center element)        489
+      / \                          ^
+     4   9
  */
 
 - (BOOL) iterateBalancing:(NSNumber *) times {
@@ -103,6 +109,10 @@
         node.rightCount = len;
     }
     return YES;
+}
+
+- (void) cancelBalancing {
+#warning undone
 }
 
 - (id) initWithEntity:(NSEntityDescription *)entity insertIntoManagedObjectContext:(NSManagedObjectContext *)context {

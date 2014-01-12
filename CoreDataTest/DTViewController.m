@@ -19,7 +19,7 @@
 
 /*!
  @abstract Balances graphs to normalize branch length dispersion
- @discussion Method starts x/ybalancingOperations and calls graph 'iterateBalancing' till operations are cancelled or graphs are fully normalized. Also operations invalidate graph representation views to show progress
+ @discussion Method starts x/ybalancingOperations and calls graph 'iterateBalancing' method till operations are cancelled or graphs are fully normalized. Also operations invalidate graph representation views to show progress
  @param graphX - graph of x-nodes
  @param graphY - graph of y-nodes;
  @param context - model context
@@ -80,6 +80,7 @@
     DTAppDelegate *appDelegate = (DTAppDelegate *)[UIApplication sharedApplication].delegate;
     self.graphRepresentationX.graph = appDelegate.graphX;
     self.graphRepresentationY.graph = appDelegate.graphY;
+    
     [self balanceGraphX:appDelegate.graphX GraphY:appDelegate.graphY InContext:appDelegate.context];
 }
 
