@@ -42,9 +42,7 @@
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGSize s = self.bounds.size;
         //CGPoint *lines = malloc(MAX(self.graph.rootNode.leftCount, self.graph.rootNode.rightCount)*sizeof(CGPoint));
-        @synchronized (self.graph) {
-            [self drawNode:self.graph.rootNode InContext:context Since:CGPointMake(s.width *.5, 40) LineLength:CGSizeMake(20, 10)];
-        }
+        [self drawNode:self.graph.rootNode InContext:context Since:CGPointMake(s.width *.5, 40) LineLength:CGSizeMake(20, 10)];
         CGContextSetRGBStrokeColor(context, 0, 0, 0, 1);
         CGContextStrokePath(context);
     }

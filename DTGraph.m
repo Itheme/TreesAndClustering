@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) NSArray *allNodes;
 @property (nonatomic, strong) NSMutableArray *unbalancedNodes;
+@property (nonatomic, strong) NSString *preferedNodeEntityName;
 
 @end
 
@@ -24,6 +25,7 @@
 
 @synthesize allNodes = _allNodes;
 @synthesize unbalancedNodes = _unbalancedNodes;
+@synthesize preferedNodeEntityName;
 
 - (NSDictionary *)unbalancedNodeRecordAtIndex:(int) index WithinRange:(NSRange) range {
     return @{@"node": _allNodes[index],
@@ -31,8 +33,8 @@
              @"rightRange":[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(index + 1, range.location + range.length - index - 1)]};
 }
 
-- (void) startBalancingInContext:(NSManagedObjectContext *)context NodeEntityName:(NSString *)nodeEntityName {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:nodeEntityName];
+- (void) startBalancingInContext:(NSManagedObjectContext *)context {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:self.preferedNodeEntityName];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"value" ascending:YES]];
     NSError *error = nil;
     
@@ -61,8 +63,9 @@
      4   6
  */
 
-- (BOOL) iterateBalancing:(NSUInteger) times {
-    while (times--) {
+- (BOOL) iterateBalancing:(NSNumber *) times {
+    int timesLeft = [times integerValue];
+    while (timesLeft--) {
         if (_unbalancedNodes.count == 0)
             return NO;
         NSDictionary *nodeRecord = _unbalancedNodes.lastObject;
@@ -100,6 +103,17 @@
         node.rightCount = len;
     }
     return YES;
+}
+
+- (id) initWithEntity:(NSEntityDescription *)entity insertIntoManagedObjectContext:(NSManagedObjectContext *)context {
+    self = [super initWithEntity:entity insertIntoManagedObjectContext:context];
+    if (self) {
+        if ([entity.name isEqualToString:@"GraphX"])
+            self.preferedNodeEntityName = @"NodeX";
+        else
+            self.preferedNodeEntityName = @"NodeY";
+    }
+    return self;
 }
 
 @end

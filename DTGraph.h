@@ -14,8 +14,12 @@
 @interface DTGraph : NSManagedObject
 
 @property (nonatomic, retain) DTNodeX *rootNode;
+@property (nonatomic, readonly) NSString *preferedNodeEntityName;
+@property (nonatomic, readonly) NSMutableArray *unbalancedNodes;
 
-- (void) startBalancingInContext:(NSManagedObjectContext *)context NodeEntityName:(NSString *)nodeEntityName;
-- (BOOL) iterateBalancing:(NSUInteger) times;
+- (void) startBalancingInContext:(NSManagedObjectContext *)context;
+- (BOOL) iterateBalancing:(NSNumber *) times;
+
+- (id) initWithEntity:(NSEntityDescription *)entity insertIntoManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end

@@ -23,10 +23,24 @@
  @abstract tries to self organize
  @discussion magic
  @param model context
- @param maximum distance to cover by one iteration
  */
+- (BOOL)iterateSelfOrganizationInContext:(NSManagedObjectContext *)context;
 
-- (BOOL)iterateSelfOrganizationInContext:(NSManagedObjectContext *)context DistanceLimit:(float)distanceLimit;
+/*!
+ @abstract Take a closest node from a given cluster
+ @discussion Method puts closest node from a given cluster into this cluster node list
+ @param cluster victim cluster
+ @param context - model context
+ */
+- (void)borrowNodeFrom:(DTCluster *)cluster InContext:(NSManagedObjectContext *)context;
+
+/*!
+ @abstract init method
+ @param entity - entity of a DTCluster
+ @param context - model context
+ @param distanceLimit - maximum distance to cover by one iteration
+ */
+- (id) initWithEntity:(NSEntityDescription *)entity insertIntoManagedObjectContext:(NSManagedObjectContext *)context DistanceLimit:(float) distanceLimit;
 
 @end
 
@@ -36,5 +50,11 @@
 - (void)removeRelationshipObject:(DTNodeX *)value;
 - (void)addRelationship:(NSSet *)values;
 - (void)removeRelationship:(NSSet *)values;
+
+@end
+
+@interface NSArray (DTClusterArray)
+
+- (DTCluster *) closestToCluster:(DTCluster *)cluster;
 
 @end

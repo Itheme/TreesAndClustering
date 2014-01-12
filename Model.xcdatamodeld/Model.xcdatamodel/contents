@@ -41,10 +41,10 @@
         <relationship name="rightSubNode" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NodeY" inverseName="lesserParent" inverseEntity="NodeY" syncable="YES"/>
     </entity>
     <elements>
-        <element name="GraphX" positionX="43" positionY="6" width="128" height="75"/>
-        <element name="GraphY" positionX="-207" positionY="-3" width="128" height="75"/>
-        <element name="NodeX" positionX="97" positionY="-300" width="128" height="210"/>
-        <element name="NodeY" positionX="-225" positionY="-324" width="128" height="195"/>
-        <element name="LinearCluster" positionX="-144" positionY="-477" width="128" height="60"/>
+        <element name="GraphX" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="GraphY" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="LinearCluster" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="NodeX" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="NodeY" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

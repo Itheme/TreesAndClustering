@@ -19,4 +19,4 @@
 #define kCLOUDSIZE 1000
 
 // cluster count
-#define kCLUSTERCOUNT 12
+#define kCLUSTERCOUNT 20

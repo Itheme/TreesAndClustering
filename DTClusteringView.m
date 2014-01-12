@@ -10,6 +10,9 @@
 #import "DTNodeX.h"
 #import "DTCluster.h"
 
+#define TRANSX(x) (((x) + 1.2) * s.width)
+#define TRANSY(y) (((y) + 1.3) * s.height)
+
 @implementation DTClusteringView
 
 - (id)initWithFrame:(CGRect)frame
@@ -23,6 +26,8 @@
 
 - (void)drawRect:(CGRect)rect
 {
+    if (!self.allClusters) return;
+    if (!self.allNodes) return;
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGSize s = self.bounds.size;
     if (s.width > s.height) {
@@ -32,29 +37,61 @@
     }
     s.width *= 1.0/2.4; // no objc calls and stupid code for faster drawing
     s.height *= 1.0/2.4;
-    if (self.allNodes) {
-        CGContextSetRGBFillColor(context, 0, 0, 0, 1.0);
-        @synchronized (self.allNodes) {
-            for (DTNodeX *node in self.allNodes) {
-                CGFloat x = (node.value + 1.2) * s.width;
+    CGContextSetRGBFillColor(context, 0, 0, 0, 1.0);
+    for (DTNodeX *node in self.allNodes) {
+        if (node.cluster) continue;
+        CGFloat x = TRANSX(node.value);
+        CGFloat y = TRANSY(node.pair.value);
+        CGContextAddRect(context, CGRectMake(x - 1, y - 1, 2, 2));
+    }
+    CGContextFillPath(context);
+    if (!self.allClusters) return;
+    CGContextSetRGBStrokeColor(context, 0.8, 0, 0.8, 1.0);
+    CGContextSetLineWidth(context, 2.0);
+    [self.allClusters enumerateObjectsUsingBlock:^(DTCluster *cluster, NSUInteger idx, BOOL *stop) {
+        CGFloat x = TRANSX(cluster.centerX);
+        CGFloat y = TRANSY(cluster.centerY);
+        CGFloat l = cluster.length * 0.5 * s.width;
+        if (l < 1.0) l = .5;
+        CGContextSetRGBFillColor(context, idx & 1, (idx & 2) >> 1, (idx & 4) >> 2, 0.5);
+        for (DTNodeX *node in self.allNodes)
+            if ([node.cluster isEqual:cluster]) {
+                CGFloat x = TRANSX(node.value);
                 CGFloat y = (node.pair.value + 1.3) * s.height;
                 CGContextAddRect(context, CGRectMake(x - 1, y - 1, 2, 2));
             }
-        }
         CGContextFillPath(context);
-        if (!self.allClusters) return;
-        CGContextSetRGBStrokeColor(context, 0.8, 0, 0.8, 0.5);
-        @synchronized (self.allNodes) {
-            for (DTCluster *cluster in self.allClusters) {
-                CGFloat x = (cluster.centerX + 1.2) * s.width;
-                CGFloat y = (cluster.centerY + 1.3) * s.height;
-                CGContextMoveToPoint(context, x + cluster.length*0.5*cos(cluster.angle), y + cluster.length*0.5*sin(cluster.angle));
-                CGContextAddLineToPoint(context, x - cluster.length*0.5*cos(cluster.angle), y - cluster.length*0.5*sin(cluster.angle));
-            }
-        }
+        
+        CGContextMoveToPoint(context, x + l*cos(cluster.angle), y + l*sin(cluster.angle));
+        CGContextAddLineToPoint(context, x - l*cos(cluster.angle), y - l*sin(cluster.angle));
         CGContextStrokePath(context);
+    }];
+    NSMutableArray *line = [@[self.allClusters.firstObject] mutableCopy];
+    NSMutableArray *rest = [self.allClusters mutableCopy];
+    [rest removeObject:line.firstObject];
+    while (rest.count > 0) {
+        DTCluster *lineStart = line.firstObject;
+        DTCluster *lineEnd = line.lastObject;
+        DTCluster *newStart = [rest closestToCluster:lineStart];
+        DTCluster *newEnd = [rest closestToCluster:lineEnd];
+        float approximateDistance = ABS(newStart.centerX - lineStart.centerX) + ABS(newStart.centerY - lineStart.centerY);
+        if (ABS(newEnd.centerX - lineEnd.centerX) + ABS(newEnd.centerY - lineEnd.centerY) < approximateDistance) {
+            [line addObject:newEnd];
+            [rest removeObject:newEnd];
+        } else {
+            [line insertObject:newStart atIndex:0];
+            [rest removeObject:newStart];
+        }
     }
-    
+    CGContextSetLineWidth(context, 20);
+    CGContextSetRGBStrokeColor(context, 0.1, 0.1, 0.1, 0.2);
+    [line enumerateObjectsUsingBlock:^(DTCluster *c, NSUInteger idx, BOOL *stop) {
+        if (idx)
+            CGContextAddLineToPoint(context, TRANSX(c.centerX), TRANSY(c.centerY));
+        else
+            CGContextMoveToPoint(context, TRANSX(c.centerX), TRANSY(c.centerY));
+    }];
+    CGContextStrokePath(context);
 }
 
 @end

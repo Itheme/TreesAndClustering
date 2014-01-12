@@ -63,12 +63,12 @@
 }
 
 - (void)fillNodes {
-    NSEntityDescription *nodeDescriptionX = [self.model entitiesByName][@"NodeX"];
-    NSEntityDescription *nodeDescriptionY = [self.model entitiesByName][@"NodeY"];
+    NSEntityDescription *nodeDescriptionX = [self.model entitiesByName][self.graphX.preferedNodeEntityName];
+    NSEntityDescription *nodeDescriptionY = [self.model entitiesByName][self.graphY.preferedNodeEntityName];
     for (int i = kCLOUDSIZE; i--; ) {
-        double radians = M_PI*2.0*rand()/RAND_MAX;
-        DTNodeX *x = [self addNewNode:cos(radians)+0.05*rand()/RAND_MAX-0.025 Graph:self.graphX Description:nodeDescriptionX];
-        x.pair = [self addNewNode:sin(radians)+0.05*rand()/RAND_MAX-0.025 Graph:self.graphY Description:nodeDescriptionY];
+        double radians = M_PI*3.0*rand()/RAND_MAX;
+        DTNodeX *x = [self addNewNode:cos(radians)*radians/9.5+0.15*rand()/RAND_MAX-0.075 Graph:self.graphX Description:nodeDescriptionX];
+        x.pair = [self addNewNode:sin(radians)*radians/9.5+0.15*rand()/RAND_MAX-0.075 Graph:self.graphY Description:nodeDescriptionY];
         x.pair.pair = x;
     }
 }

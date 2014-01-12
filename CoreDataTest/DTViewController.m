@@ -30,51 +30,44 @@
 
 @implementation DTViewController
 
-- (void) updateGraphXRepresentation {
-    [self.graphRepresentationX performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
-}
-
-- (void) updateGraphYRepresentation {
-    [self.graphRepresentationY performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
+- (void) updateRepresentationFor:(DTGraph *)graph {
+    if ([self.graphRepresentationX.graph isEqual:graph])
+        [self.graphRepresentationX performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
+    else
+        [self.graphRepresentationY performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
 }
 
 - (void)balanceGraphX:(DTGraph *)graphX GraphY:(DTGraph *)graphY InContext:(NSManagedObjectContext *)context {
     self.xbalancingOperation = [NSBlockOperation blockOperationWithBlock:^{
         [NSThread sleepForTimeInterval:1.0];
-        @synchronized (graphX) {
-            [graphX startBalancingInContext:context NodeEntityName:@"NodeX"];
-        }
-        [self updateGraphXRepresentation];
+        [graphX performSelectorOnMainThread:@selector(startBalancingInContext:) withObject:context waitUntilDone:YES];
+        [self updateRepresentationFor:graphX];
         [NSThread sleepForTimeInterval:0.1];
         while (![self.xbalancingOperation isCancelled]) {
-            @synchronized (graphX) {
-                if (![graphX iterateBalancing:5]) break;
-            }
-            [self updateGraphXRepresentation];
+            [graphX performSelectorOnMainThread:@selector(iterateBalancing:) withObject:@5 waitUntilDone:YES];
+            if (graphX.unbalancedNodes.count == 0) break;
+            [self updateRepresentationFor:graphX];
             [NSThread sleepForTimeInterval:0.1];
         }
     }];
     self.ybalancingOperation = [NSBlockOperation blockOperationWithBlock:^{
         [NSThread sleepForTimeInterval:1.0];
-        @synchronized (graphY) {
-            [graphY startBalancingInContext:context NodeEntityName:@"NodeY"];
-        }
-        [self updateGraphYRepresentation];
+        [graphY performSelectorOnMainThread:@selector(startBalancingInContext:) withObject:context waitUntilDone:YES];
+        [self updateRepresentationFor:graphY];
         [NSThread sleepForTimeInterval:0.1];
         while (![self.ybalancingOperation isCancelled]) {
-            @synchronized (graphY) {
-                if (![graphY iterateBalancing:5]) break;
-            }
-            [self updateGraphYRepresentation];
+            [graphY performSelectorOnMainThread:@selector(iterateBalancing:) withObject:@5 waitUntilDone:YES];
+            if (graphY.unbalancedNodes.count == 0) break;
+            [self updateRepresentationFor:graphY];
             [NSThread sleepForTimeInterval:0.1];
         }
     }];
     __block DTViewController *this = self;
     [self.xbalancingOperation setCompletionBlock:^{
-        [this updateGraphXRepresentation];
+        [this updateRepresentationFor:graphX];
     }];
     [self.ybalancingOperation setCompletionBlock:^{
-        [this updateGraphYRepresentation];
+        [this updateRepresentationFor:graphY];
     }];
     self.queue = [[NSOperationQueue alloc] init];
     [self.queue addOperation:self.xbalancingOperation];
