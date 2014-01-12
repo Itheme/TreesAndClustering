@@ -52,8 +52,6 @@
     CGContextSetLineWidth(context, 2.0);
     // drawing node cloud (clustered nodes only)
     [self.allClusters enumerateObjectsUsingBlock:^(DTCluster *cluster, NSUInteger idx, BOOL *stop) {
-        CGFloat l = cluster.length * 0.5 * s.width;
-        if (l < 1.0) l = .5;
         CGContextSetRGBFillColor(context, idx & 1, (idx & 2) >> 1, (idx & 4) >> 2, 0.5);
         for (DTNodeX *node in self.allNodes)
             if ([node.cluster isEqual:cluster]) {
@@ -64,6 +62,8 @@
         CGContextFillPath(context);
         
         // clusters' pseudolines:
+        //CGFloat l = cluster.length * 0.5 * s.width;
+        //if (l < 1.0) l = .5;
         //CGFloat x = TRANSX(cluster.centerX);
         //CGFloat y = TRANSY(cluster.centerY);
         //CGContextMoveToPoint(context, x + l*cos(cluster.angle), y + l*sin(cluster.angle));

@@ -32,6 +32,8 @@
 @synthesize unbalancedNodes = _unbalancedNodes;
 @synthesize preferedNodeEntityName;
 
+static NSArray *rangeNames;
+
 - (NSDictionary *)unbalancedNodeRecordAtIndex:(int) index WithinRange:(NSRange) range {
     return @{@"node": _allNodes[index],
              @"leftRange":[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(range.location, index - 1 - range.location)],
@@ -77,42 +79,39 @@
         NSDictionary *nodeRecord = _unbalancedNodes.lastObject;
         [_unbalancedNodes removeLastObject];
         DTNodeX *node = nodeRecord[@"node"];
-        NSIndexSet *indexes = nodeRecord[@"leftRange"];
-        NSUInteger start = indexes.firstIndex;
-        NSUInteger len = indexes.count;
-        if (len > 1) {
-            int median = start + (len*0.5);
-            node.leftSubNode = _allNodes[median];
-            [_unbalancedNodes addObject:[self unbalancedNodeRecordAtIndex:median WithinRange:NSMakeRange(start, len)]];
-        } else {
-            if (len > 0) {
-                node.leftSubNode = _allNodes[start];
-                [node.leftSubNode terminateAllConnections];
-            } else
-                node.leftSubNode = nil;
-        }
-        node.leftCount = len;
-        indexes = nodeRecord[@"rightRange"];
-        start = indexes.firstIndex;
-        len = indexes.count;
-        if (len > 1) {
-            int median = start + (len*0.5);
-            node.rightSubNode = _allNodes[median];
-            [_unbalancedNodes addObject:[self unbalancedNodeRecordAtIndex:median WithinRange:NSMakeRange(start, len)]];
-        } else {
-            if (len > 0) {
-                node.rightSubNode = _allNodes[start];
-                [node.leftSubNode terminateAllConnections];
-            } else
-                node.rightSubNode = nil;
-        }
-        node.rightCount = len;
+        [rangeNames enumerateObjectsUsingBlock:^(NSString *rangeName, NSUInteger idx, BOOL *stop) {
+            NSIndexSet *indexes = nodeRecord[rangeName];
+            NSUInteger start = indexes.firstIndex;
+            NSUInteger len = indexes.count;
+            if (len > 1) {
+                int median = start + (len*0.5);
+                [node setNode:_allNodes[median] BySide:(BranchSide)idx];
+                [_unbalancedNodes addObject:[self unbalancedNodeRecordAtIndex:median WithinRange:NSMakeRange(start, len)]];
+            } else {
+                if (len > 0) {
+                    [node setNode:_allNodes[start] BySide:(BranchSide)idx];
+                    [_allNodes[start] terminateAllConnections];
+                } else
+                    [node setNode:nil BySide:(BranchSide)idx];
+            }
+            [node setCount:len BySide:(BranchSide)idx];
+        }];
     }
     return YES;
 }
 
 - (void) cancelBalancing {
-#warning undone
+    if (self.unbalancedNodes)
+        while (self.unbalancedNodes.count > 0) {
+            NSDictionary *nodeRec = self.unbalancedNodes.lastObject;
+            DTNodeX *startingNode = nodeRec[@"node"];
+            for (NSString *rangeName in rangeNames) {
+                [self.allNodes enumerateObjectsAtIndexes:nodeRec[rangeName] options:0 usingBlock:^(DTNodeX *node, NSUInteger idx, BOOL *stop) {
+                    [startingNode addNewNode:node];
+                }];
+            }
+            [self.unbalancedNodes removeLastObject];
+        }
 }
 
 - (id) initWithEntity:(NSEntityDescription *)entity insertIntoManagedObjectContext:(NSManagedObjectContext *)context {
@@ -122,6 +121,7 @@
             self.preferedNodeEntityName = @"NodeX";
         else
             self.preferedNodeEntityName = @"NodeY";
+        rangeNames = @[@"leftRange", @"rightRange"];
     }
     return self;
 }

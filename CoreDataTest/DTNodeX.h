@@ -14,6 +14,11 @@
 
 typedef DTNodeX DTNodeY;
 
+typedef enum BranchSideEnum {
+    bLeft = 0,
+    bRight = 1
+} BranchSide;
+
 // A binary tree node
 @interface DTNodeX : NSManagedObject
 
@@ -63,5 +68,29 @@ typedef DTNodeX DTNodeY;
  @discussion Nullifies leftSubNode and rightSubNode
  */
 - (void) terminateAllConnections;
+
+/*!
+ @abstract Returns node by side
+ @discussion leftSubNode if side == bLeft and rightSubNode if side == bRight
+ @param side - self explanatory
+ */
+- (DTNodeX *)getNodeBySide:(BranchSide) side;
+
+/*!
+ @abstract Sets node on target side
+ @discussion leftSubNode if side == bLeft and rightSubNode if side == bRight
+ @param node - node to be set
+ @param side - self explanatory
+ */
+- (void)setNode:(DTNodeX *) node BySide:(BranchSide) side;
+
+
+/*!
+ @abstract Sets children count on target side
+ @discussion leftCount if side == bLeft and rightCount if side == bRight
+ @param count - target count
+ @param side - self explanatory
+ */
+- (void)setCount:(int32_t) count BySide:(BranchSide) side;
 
 @end

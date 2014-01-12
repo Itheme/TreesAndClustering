@@ -22,17 +22,18 @@
 
 - (void)drawNode:(DTNodeX *)node InContext:(CGContextRef) context Since:(CGPoint) startPoint LineLength:(CGSize)ls{
     if (ls.width < 0.1) return;
-    if (node.rightSubNode) {
-        CGPoint rp = CGPointMake(startPoint.x + ls.width, startPoint.y + ls.height);
-        CGContextMoveToPoint(context, startPoint.x, startPoint.y);
-        CGContextAddLineToPoint(context, rp.x, rp.y);
-        [self drawNode:node.rightSubNode InContext:context Since:rp LineLength:CGSizeMake(ls.width - .8, ls.height)];
-    }
-    if (node.leftSubNode) {
-        CGPoint lp = CGPointMake(startPoint.x - ls.width, startPoint.y + ls.height);
-        CGContextMoveToPoint(context, startPoint.x, startPoint.y);
-        CGContextAddLineToPoint(context, lp.x, lp.y);
-        [self drawNode:node.leftSubNode InContext:context Since:lp LineLength:CGSizeMake(ls.width - .8, ls.height)];
+    for (BranchSide s = bLeft; s <= bRight; s++) {
+        DTNodeX *subNode = [node getNodeBySide:s];
+        if (subNode) {
+            CGPoint p = CGPointMake(startPoint.x, startPoint.y + ls.height);
+            if (s == bLeft)
+                p.x -= ls.width;
+            else
+                p.x += ls.width;
+            CGContextMoveToPoint(context, startPoint.x, startPoint.y);
+            CGContextAddLineToPoint(context, p.x, p.y);
+            [self drawNode:subNode InContext:context Since:p LineLength:CGSizeMake(ls.width - .8, ls.height)];
+        }
     }
 }
 

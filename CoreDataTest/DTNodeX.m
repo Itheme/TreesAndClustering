@@ -99,4 +99,22 @@
     self.leftSubNode = self.rightSubNode = nil;
 }
 
+- (DTNodeX *)getNodeBySide:(BranchSide) side {
+    return (side == bLeft)?self.leftSubNode:self.rightSubNode;
+}
+
+- (void)setNode:(DTNodeX *) node BySide:(BranchSide) side {
+    if (side == bLeft)
+        self.leftSubNode = node;
+    else
+        self.rightSubNode = node;
+}
+
+- (void)setCount:(int32_t) count BySide:(BranchSide) side {
+    if (side == bLeft)
+        self.leftCount = count;
+    else
+        self.rightCount = count;
+}
+
 @end

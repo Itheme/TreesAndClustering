@@ -153,10 +153,8 @@
     DTAppDelegate *appDelegate = (DTAppDelegate *)[UIApplication sharedApplication].delegate;
     NSManagedObjectContext *context = appDelegate.context;
     self.clusteringOperation = [NSBlockOperation blockOperationWithBlock:^{
-        BOOL everybodyDone;
         int iterationNo = 0;
         do {
-            everybodyDone = YES;
             [NSThread sleepForTimeInterval:0.1];
             [self updateRepresentation];
             
@@ -166,9 +164,8 @@
             [self performSelectorOnMainThread:@selector(stimulateLeastClusters) withObject:nil waitUntilDone:YES];
             if ((iterationNo % 30) == 0)
                 [self performSelectorOnMainThread:@selector(killLeastClusters) withObject:nil waitUntilDone:YES];
-            everybodyDone = YES;
             iterationNo++;
-        } while (everybodyDone || [self.clusteringOperation isCancelled]);
+        } while (![self.clusteringOperation isCancelled]);
         [self updateRepresentation];
 
     }];
